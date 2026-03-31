@@ -47,13 +47,16 @@ particle_inter = interp1d(np.log10(x_particle), np.log10(y_particle), kind = "li
 y_partint = 10**particle_inter(np.log10(x_grid))                                                                       # to make it easy, then unlogs it to fit it to the graph
 
 # plot particles vs aeronet
-plt.figure(figsize = (10,6))
-plt.plot(x_grid, y_aeroint, label = "AERONET", color = "orange", lw=2)
-plt.plot(x_grid, y_partint, label = "Particle Counter", color = "blue", linestyle = "--")
+plt.figure(figsize = (8,5))
+line1, = plt.plot(x_grid, y_aeroint, label = "AERONET", color = "orange", lw=2)
+ax1 = plt.gca()
+ax2 = ax1.twinx()
+line2, = ax2.plot(x_grid, y_partint, label = "Particle Counter", color = "blue", linestyle = "--")
+ax1.set_ylabel("AERONET")
+ax2.set_ylabel("Particle Counter")
 plt.xscale("log")
 plt.yscale("log")
-plt.xlabel("Radius ($\mu m$")
-plt.ylabel("Particle Counts")
+ax1.set_xlabel("Radius ($\mu m$)")
 plt.title("AERONET and Particle Counter Data Comparison")
-plt.legend()
-plt.show()
+plt.legend(handles = (line1, line2))
+plt.savefig("AERONET_Plot.png", dpi = 300)
